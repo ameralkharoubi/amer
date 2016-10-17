@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="d3.min.js"></script>
+    <title>Interactive Bar Graph Demo</title>
+  </head>
+
+
+  <style>
+ 
+	 #chart {
+		  width: 400px;
+		  height: 500px;
+		  margin: auto;
+	 }
+
+   .tooltip {
+      width: 150px;
+      height: 20px;
+      position: relative;
+      text-align: right;
+      background-color: yellow;
+    }
+ 
+  </style>
+
+  <body>
+      <p id="Algeria">Algeria</p>
+      <p id="Bahrain">Bahrain</p>
+      <p id="Egypt">Egypt</p>
+      <p id="Djibouti">Djibouti</p>
+      <p id="Iraq">Iraq</p>
+      <p id="Jordan">Jordan</p>
+      <p id="Kuwait">Kuwait</p>
+      <p id="Lebanon">Lebanon</p>
+      <p id="Libya">Libya</p>
+      <p id="Mauritania">Mauritania</p>
+      <p id="Morocco">Morocco</p>
+      <p id="Oman">Oman</p>
+      <p id="Palestine">Palestine</p>
+      <p id="Qatar">Qatar</p>
+      <p id="Saudi">Saudi Arabia</p>
+      <p id="Somalia">Somalia</p>
+      <p id="Sudan">Sudan</p>
+      <p id="Syria">Syria</p>
+      <p id="Tunisia">Tunisia</p>
+      <p id="UAE">UAE</p>
+      <p id="Yemen">Yemen</p>
+
+	 <div id="chart"></div>
+      
+  </body>
+ 
+  <script>
+
+  d3.csv("data/console.csv", function(error, data) {
+
+  var colors = ["rgb(41,171,226)", "rgb(46,49,146)", "rgb(237,30,121)", "rgb(193,39,45)","rgb(251,176,59)", "rgb(242,103,34)","rgb(166,124,82)", "rgb(96,56,19)"];
+
+  var padding = {top: 20, right: 20, bottom: 20, left: 70},
+        w = 400 - padding.left - padding.right,
+        h = 500 - padding.top - padding.bottom;
+
+  var yScale = d3.scale.ordinal()
+		    .domain(data.map(function(d) { return d.Console; }))
+		    .rangeRoundBands([h, 0], .05);
+
+  var xScale = d3.scale.linear()
+		    .domain([0, d3.max(data, function(d) { return d.Algeria; })])
+		    .range([0, w]);
+
+  var svg = d3.select("#chart")
+	      .append("svg")
+        .attr("width", w + padding.left + padding.right)
+        .attr("height", h + padding.top + padding.bottom)
+        .append("g")
+        .attr("transform", "translate(" + padding.left + "," + padding.top + ")");
+
+  // we separate this out because we'll be re-using this several times
+  var bars = svg.selectAll("bar").data(data);
+ 
+  // we need to create the svg rectangles beforehand. otherwise the code won't work.       
+  bars.enter().append("rect");
+
+
+//------------------------------------//
+// Start of Interactive D3 Components
+
+  var div = d3.select("#chart")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+d3.select("#Algeria").on("click", function() { 
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Algeria); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Algeria); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Algeria +"%") 
+          .style("left", w - xScale(d.Algeria) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) { 
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});
+
+d3.select("#Bahrain").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Bahrain); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Bahrain); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Bahrain +"%") 
+          .style("left", w - xScale(d.Bahrain) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});
+
+d3.select("#Egypt").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Egypt); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Egypt); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Egypt +"%") 
+          .style("left", w - xScale(d.Egypt) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});
+
+d3.select("#Djibouti").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Djibouti); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Djibouti); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Djibouti +"%") 
+          .style("left", w - xScale(d.Djibouti) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});
+
+d3.select("#Iraq").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Iraq); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Iraq); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Iraq +"%") 
+          .style("left", w - xScale(d.Iraq) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});
+      
+d3.select("#Jordan").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Jordan); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Jordan); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Jordan +"%") 
+          .style("left", w - xScale(d.Jordan) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});      
+
+d3.select("#Kuwait").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Kuwait); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Kuwait); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Kuwait +"%") 
+          .style("left", w - xScale(d.Kuwait) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Lebanon").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Lebanon); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Lebanon); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Lebanon +"%") 
+          .style("left", w - xScale(d.Lebanon) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Libya").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Libya); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Libya); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Libya +"%") 
+          .style("left", w - xScale(d.Libya) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});      
+      
+d3.select("#Mauritania").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Mauritania); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Mauritania); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Mauritania +"%") 
+          .style("left", w - xScale(d.Mauritania) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Morocco").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Morocco); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Morocco); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Morocco +"%") 
+          .style("left", w - xScale(d.Morocco) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Oman").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Oman); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Oman); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Oman +"%") 
+          .style("left", w - xScale(d.Oman) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+}); 
+      
+d3.select("#Palestine").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Palestine); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Palestine); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Palestine +"%") 
+          .style("left", w - xScale(d.Palestine) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Qatar").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Qatar); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Qatar); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Qatar +"%") 
+          .style("left", w - xScale(d.Qatar) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Saudi").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d['Saudi Arabia']); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d['Saudi Arabia']); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d['Saudi Arabia'] +"%") 
+          .style("left", w - xScale(d['Saudi Arabia']) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+}); 
+
+d3.select("#Somalia").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Somalia); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Somalia); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Somalia +"%") 
+          .style("left", w - xScale(d.Somalia) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+ d3.select("#Sudan").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Sudan); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Sudan); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Sudan +"%") 
+          .style("left", w - xScale(d.Sudan) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+}); 
+      
+d3.select("#Syria").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Syria); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Syria); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Syria +"%") 
+          .style("left", w - xScale(d.Syria) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Tunisia").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Tunisia); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Tunisia); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Tunisia +"%") 
+          .style("left", w - xScale(d.Tunisia) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+}); 
+  
+d3.select("#UAE").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.UAE); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.UAE); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.UAE +"%") 
+          .style("left", w - xScale(d.UAE) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});       
+      
+d3.select("#Yemen").on("click", function() { // function that renders the second set of bars
+
+        bars.attr("fill", function(d,i) {return colors[i];})
+        .attr("x", function(d) { return w - xScale(d.Yemen); })
+        .attr("height", yScale.rangeBand())
+        .attr("y", function(d) { return yScale(d.Console); })
+        .attr("width", function(d) { return xScale(d.Yemen); })
+        .on("mouseover", function(d) {
+        
+        div.transition()
+          .duration(200)
+          .style("opacity", 1);
+
+        div.html("percentage of searches is " + d.Yemen +"%") 
+          .style("left", w - xScale(d.Yemen) + -140 + "px")
+          .style("top", yScale(d.Console) + -480 + "px");
+
+        })
+        .on("mouseout", function(d) {
+
+          div.transition()
+          .duration(500)
+          .style("opacity", 0);
+        });
+});     
+      
+      
+      
+});
+ 
+</script>
+</html>
